@@ -56,7 +56,10 @@
 	
 	.cartcontrol .cart-decrease{
 		display: inline-block;
-		
+	}
+	.cartcontrol .cart-decrease.move{
+		opacity: 1;
+		transform: translate3D(0,0,0);
 	}
 	.cartcontrol .cart-decrease .inner{
 		padding: 6px;
@@ -66,11 +69,12 @@
 		transition: all 0.4s linear;
 		transform: rotate(0);
 	}
-	.cartcontrol .cart-decrease.move-enter,.cartcontrol .cart-decrease.move-leave{
+
+	.cartcontrol .cart-decrease.move-enter,.cartcontrol .cart-decrease.move-leave-to{
 		opacity: 0;
 		transform: translate3D(24px,0,0);
 	}
-	.cartcontrol .cart-decrease.move-enter .inner,.cartcontrol .cart-decrease.move-leave .inner{
+	.cartcontrol .cart-decrease.move-enter .inner,.cartcontrol .cart-decrease.move-leave-to .inner{
 		transform: rotate(180deg);
 	}
 	.cartcontrol .cart-decrease {
@@ -78,10 +82,18 @@
 		top: 1px;
 		transition: all .4s linear;
 	}
-	.cartcontrol .cart-decrease.move-transition{
-		opacity: 1;
-		transform: translate3D(0,0,0);
-	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	.cartcontrol .cart-count {
 		display: inline-block;
 		vertical-align: top;
