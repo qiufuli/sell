@@ -59,6 +59,7 @@
 </template>
 
 <script>
+	// better-scroll这个插件比较好用 超出滚动 移动端很实用  体验效果也很好
 	import BScroll from 'better-scroll'
 	import cartcontrol from '@/components/cartcontrol/cartcontrol'
 	export default{
