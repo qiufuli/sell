@@ -35,14 +35,14 @@
 					<ratingselect :select-type="selectType" :only-content="onlyContent" :desc="desc" :ratings="food.ratings"></ratingselect>
 					<div class="rating-wrapper">
 						<ul v-show="food.ratings && food.ratings.length">
-							<li class="rating-item" v-show="needShow(rating.rateType,rating.text)" v-for="rating in food.ratings" v-on:ratingtype.select="ratingSelect" v-on:content.toggle="contentTog">
+							<li class="rating-item" v-show="needShow(rating.rateType,rating.text)" v-for="rating in food.ratings"  >
 								<div class="user">
 									<span class="name">{{rating.username}}</span>
 									<img class="avatar" width="12" height="12" :src="rating.avatar" alt="" />
 								</div>
 								<div class="time">{{rating.rateTime | formatDate}}</div>
 								<p class="text">
-									<span :class="{'icon-thumb_up':rating.rateType===0,'icon-thumb_down':rating.rateType===1}">
+									<span class="iconfont ":class="{'icon-zan-up':rating.rateType===0,'icon-zan-down':rating.rateType===1}">
 										{{rating.text}}
 									</span>
 								</p>
@@ -65,14 +65,16 @@
 	import split from '@/components/split/split';
 	import { formatDate } from '@/common/js/date';
 	import ratingselect from '@/components/ratingselect/ratingselect';
-
+	import {sellEmit} from '@/common/js/sellEmit'
 	const ALL = 2;
 	export default {
 		props: ["food"],
 		data() {
 			return {
 				showFlag: false,
+				//评论类型
 				selectType: ALL,
+				//只显示有内容的
 				onlyContent: true,
 				desc: {
 					all: '全部',
@@ -85,6 +87,20 @@
 			cartcontrol,
 			split,
 			ratingselect
+		},
+		created(){
+			sellEmit.$on("ratingtype.select",(data)=>{
+				this.selectType = data;
+				this.$nextTick(() => {
+					this.scroll.refresh();
+				});
+			})
+			sellEmit.$on("content.toggle",(data)=>{
+				this.onlyContent = data;
+				this.$nextTick(() => {
+					this.scroll.refresh();
+				});
+			})
 		},
 		methods: {
 			show() {
@@ -110,6 +126,7 @@
 				}
 				Vue.set(this.food, 'count', 1);
 			},
+			// 这个写的挺好
 			needShow(type, text) {
 				if(this.onlyContent && !text) {
 					return false;
@@ -117,30 +134,25 @@
 				if(this.selectType === ALL) {
 					return true;
 				} else {
+					// 如果v-for中的type和返回的值是一样的就显示对应type的数据
 					return type === this.selectType;
 				}
-			},
-			ratingSelect(data){
-				alert(data)
-			},
-			contentTog(data){
-				alert(data)
 			}
 		},
-		events: {
-			'ratingtype.select' (type) {
-				this.selectType = type;
-				this.$nextTick(() => {
-					this.scroll.refresh();
-				});
-			},
-			'content.toggle' (onlyContent) {
-				this.onlyContent = onlyContent;
-				this.$nextTick(() => {
-					this.scroll.refresh();
-				});
-			}
-		},
+//		events: {
+//			'ratingtype.select' (type) {
+//				this.selectType = type;
+//				this.$nextTick(() => {
+//					this.scroll.refresh();
+//				});
+//			},
+//			'content.toggle' (onlyContent) {
+//				this.onlyContent = onlyContent;
+//				this.$nextTick(() => {
+//					this.scroll.refresh();
+//				});
+//			}
+//		},
 		filters: {
 			formatDate(time) {
 				let date = new Date(time);
@@ -190,14 +202,17 @@
 	.food .image-header .back {
 		position: absolute;
 		top: 10px;
-		left: 0;
+		left: 5px;
+		background:rgba(7,17,27,0.3);
+		border-radius: 50%;
 	}
 	
 	.food .image-header .back .icon-return {
 		display: block;
-		padding: 10px;
+		padding: 5px;
 		font-size: 20px;
 		color: #fff;
+		
 	}
 	
 	.food .content {
@@ -352,18 +367,18 @@
 		color: rgb(7, 17, 27);
 	}
 	
-	.food .rating-item .text .icon-thumb_up,
-	.food .rating-item .text .icon-thumb_down {
+	.food .rating-item .text .icon-zan-up,
+	.food .rating-item .text .icon-zan-down {
 		margin-right: 4px;
 		line-height: 16px;
 		font-size: 12px;
 	}
 	
-	.food .rating-item .text .icon-thumb_up {
+	.food .rating-item .text .icon-zan-up {
 		color: rgb(0, 160, 220);
 	}
 	
-	.food .rating-item .text .icon-thumb_down {
+	.food .rating-item .text .icon-zan-down{
 		color: rgb(147, 153, 159)
 	}
 	

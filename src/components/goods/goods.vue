@@ -54,6 +54,7 @@
 	import shopcart from '@/components/shopcart/shopcart'
 	import cartcontrol from '@/components/cartcontrol/cartcontrol'
 	import food from '@/components/food/food'
+	import {sellEmit} from '@/common/js/sellEmit'
 	export default{
 		props:["seller"],
 		data(){
