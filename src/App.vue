@@ -18,20 +18,30 @@
 
 <script>
 import vHeader from "@/components/header/header.vue"
+import {urlParse} from '@/common/js/store.js'
 export default {
   name: 'app',
   data(){
   	return{
-  		seller:{}
+  		seller:{
+  			id:(()=>{
+  				let queryParam = urlParse();
+  				console.log(queryParam)
+  				return queryParam.id;
+  			})()
+  		}
   		
   	}
   },
   created() {
   	this.$http.get('../static/data.json').then((response)=>{
-
   		response = response.body;
-  		this.seller = response.seller
-  		console.log(this.seller)
+		this.seller = response.seller;
+//		this.seller = Object.assign({},this.seller,response.seller);
+  		//这是扩展完id属性后的的写法 要不获取不到id 会报undefined
+//		console.log(this.seller.id)
+  		
+//		console.log(this.seller)
   	})
   },
   components:{

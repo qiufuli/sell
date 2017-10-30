@@ -48,6 +48,7 @@
 								</p>
 							</li>
 						</ul>
+						<!--暂无评价-->
 						<div class="no-rating" v-show="!food.ratings || !food.ratings.length">
 							暂无评价
 						</div>
@@ -63,6 +64,8 @@
 	import BScroll from 'better-scroll';
 	import cartcontrol from '@/components/cartcontrol/cartcontrol';
 	import split from '@/components/split/split';
+	// export出来的用{}引入 可以引入多个{formatDate，a，b}3个
+	//export default出来的不用{}
 	import { formatDate } from '@/common/js/date';
 	import ratingselect from '@/components/ratingselect/ratingselect';
 	import {sellEmit} from '@/common/js/sellEmit'
@@ -89,15 +92,18 @@
 			ratingselect
 		},
 		created(){
+			//监听事件的数据变化
 			sellEmit.$on("ratingtype.select",(data)=>{
 				this.selectType = data;
 				this.$nextTick(() => {
+					//如果子元素或者父元素 DOM 结构发生改变的时候，必须重新调用 scroll.refresh() 方法重新计算来确保滚动效果的正常
 					this.scroll.refresh();
 				});
 			})
 			sellEmit.$on("content.toggle",(data)=>{
 				this.onlyContent = data;
 				this.$nextTick(() => {
+					//如果子元素或者父元素 DOM 结构发生改变的时候，必须重新调用 scroll.refresh() 方法重新计算来确保滚动效果的正常
 					this.scroll.refresh();
 				});
 			})
@@ -128,6 +134,7 @@
 			},
 			// 这个写的挺好
 			needShow(type, text) {
+				// 只有内容 并且没有文本的时候
 				if(this.onlyContent && !text) {
 					return false;
 				}
